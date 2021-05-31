@@ -1,10 +1,21 @@
-import React from 'react';
+import React, { useEffect } from "react";
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Home from "./components/home";
 import Table from './components/table';
 import PageNotFound from './components/pageNotFound';
+import { connect } from 'react-redux';
+import { getTableData } from './redux/actions';
 
-function App() {
+type Props = {
+    getTableData: typeof getTableData
+}
+
+const App: React.FC<Props> = ({ getTableData }) => {
+
+    useEffect(()=> {
+        getTableData();
+    })
+
     return (
         <Router>
             <Switch>
@@ -16,4 +27,8 @@ function App() {
     );
 }
 
-export default App;
+const mapDispatchToProps = {
+    getTableData,
+};
+
+export default connect(null, mapDispatchToProps)(App);
